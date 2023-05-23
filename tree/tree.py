@@ -3,7 +3,32 @@ class Tree:
     def __init__(self, root):
         self.root = root
 
+    def recursive_traversal(self, nodes):  # recursive traversal, because I didn't want to look silly
+        # In case of it's only one node instead of a list,
+        # so it can be iterated over
+        if isinstance(nodes, Node):
+            nodes = [nodes]
+        
+        # iterate over all the nodes
+        for current_node in nodes:
+
+            # if current node doesn't have any children, it must be a leaf
+            if current_node.children == []:
+                print(current_node.value, end=" ")
+            else:
+                # necessary for nodes between
+                
+                print(current_node.value, end=" ")
+                # if that node has children
+                # I iterate over all the children and call this function again recursively
+                for child in current_node.children:
+                    self.recursive_traversal(child)
+                
+                # once all the children have been gone through I can change the current node to its parent
+                current_node = child.parent
+        
     # for representing the tree in the most naive way
+    
     def __str__(self):
         data = [[self.root]]
 
@@ -59,16 +84,21 @@ class Node:
 
 root = Node(None, 1)
 tree = Tree(root)
+
 node1 = Node(root, 2)
-node2 = Node(root, 3)
-node3 = Node(root, 4)
 root.add_node(node1)
+
+node2 = Node(root, 3)
 root.add_node(node2)
+
+node3 = Node(root, 4)
 root.add_node(node3)
 
-node4 = Node(node3, 5)
+node4 = Node(node3, 6)
 node3.add_node(node4)
 
+node9 = Node(node2, 10)
+node2.add_node(node9)
 
 node5 = Node(node3, 6)
 node3.add_node(node5)
@@ -82,4 +112,5 @@ node6.add_node(node7)
 node8 = Node(node6, 9)
 node6.add_node(node8)
 
+print(tree.recursive_traversal(tree.root.children))
 print(tree)
